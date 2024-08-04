@@ -10,56 +10,59 @@ def startQuestion(massivIngrediens):
             if ingredient not in question:
                 question.append(ingredient)
 
-    while True:
+    while question:
         random_ingredient = random.choice(question)
+        question.remove(random_ingredient)
 
         def ingidient(random_ingredient):
-            ingridientsNumber = input(f"На сколько от 1 до 5, вам нравиться данный ингредиент: {random_ingredient}\n")
+            ingridientsNumber = input(f"На сколько от 1 до 5, вам нравится данный ингредиент: {random_ingredient}\n")
 
             # Проверяем, что введенное значение в допустимом диапазоне
             if ingridientsNumber.isdigit() and 1 <= int(ingridientsNumber) <= 5:
-                searchIngidient(ingridientsNumber, random_ingredient)
+                return searchIngidient(int(ingridientsNumber), random_ingredient)
             else:
                 print("Пожалуйста, введите число от 1 до 5.")
-                ingidient(random_ingredient)
+                return ingidient(random_ingredient)
         
         def searchIngidient(ingridientsNumber, random_ingredient):
             print(f"Вы ввели данное значение: {ingridientsNumber}")
-            total_occurrences = check_ingredient(random_ingredient, massivIngrediens)
+            total_occurrences = check_ingredient(ingridientsNumber, random_ingredient, massivIngrediens)  # Инвертируем оценку
             
             print(f"Ингредиент '{random_ingredient}' найден {total_occurrences} раз(а) в списке.")
+            for dish in massivIngrediens:
+                if dish[2] > 80.0:
+                    print(f"Блюдо '{dish[0]}' набрало более 80 процентов.")
+                    return True  # Завершаем цикл
+            return False  # Продолжаем цикл
 
-
-        def check_ingredient(ingredient, data):
+        def check_ingredient(ingridientsNumber, ingredient, data):
             total_count = 0
             for dish in data:
-                count = dish[1].count(ingredient)
-                dish[2] += count
-                total_count += count
+                if ingredient in dish[1]:
+                    # Рассчитываем процентное соотношение
+                    percent_value = (100 / len(dish[1])) / 5 * ingridientsNumber
+                    dish[2] += percent_value
+                    total_count += 1
             return total_count
 
-        ingidient(random_ingredient)
-        break
-        
- 
-def start():
-    print('Приветсвую, пользователь!', end = '\n') 
- 
-    # ansverUsers = input('Хотите узнать свое любимое блюдо? Напишите "+", если согласны ') 
+        if ingidient(random_ingredient):
+            break
 
+def start():
     # Открытие и чтение JSON-файла
-    with open('product.json', 'r', encoding='utf-8') as file:
+    with open('c:/Users/N_OFFICE_5/Desktop/react/py/product.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
 
         # Преобразование данных обратно в список списков
         massivIngrediens = [[item['name'], item['ingredients'], item['count']] for item in data]
 
-        # Печать результата
-        print(massivIngrediens)
 
-    # if(ansverUsers != '+'):
-    #         return print('Отключение')
+    print('Приветсвую, пользователь!', end='\n') 
+    ansverUsers = input('Хотите узнать свое любимое блюдо? Напишите "+", если согласны ') 
 
-    # startQuestion(massivIngrediens) 
+    if(ansverUsers == '+'):
+        startQuestion(massivIngrediens)
+    else: 
+        return print('Отключение')
 
 start()
