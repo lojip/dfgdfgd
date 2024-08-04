@@ -25,9 +25,7 @@ def startQuestion(massivIngrediens):
                 return ingidient(random_ingredient)
         
         def searchIngidient(ingridientsNumber, random_ingredient):
-            print(f"Вы ввели данное значение: {ingridientsNumber}")
             total_occurrences = check_ingredient(ingridientsNumber, random_ingredient, massivIngrediens)  # Инвертируем оценку
-            
             print(f"Ингредиент '{random_ingredient}' найден {total_occurrences} раз(а) в списке.")
             for dish in massivIngrediens:
                 if dish[2] > 80.0:
@@ -42,11 +40,16 @@ def startQuestion(massivIngrediens):
                     # Рассчитываем процентное соотношение
                     percent_value = (100 / len(dish[1])) / 5 * ingridientsNumber
                     dish[2] += percent_value
+                    print(dish[0], dish[2])
                     total_count += 1
             return total_count
 
         if ingidient(random_ingredient):
             break
+
+    if not question:
+        print('Вы тот, кому ничего не нравится.')
+        return
 
 def start():
     # Открытие и чтение JSON-файла
@@ -58,7 +61,7 @@ def start():
 
 
     print('Приветсвую, пользователь!', end='\n') 
-    ansverUsers = input('Хотите узнать свое любимое блюдо? Напишите "+", если согласны ') 
+    ansverUsers = input('Хотите узнать свое любимое блюдо? Напишите "+": ') 
 
     if(ansverUsers == '+'):
         startQuestion(massivIngrediens)
