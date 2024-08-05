@@ -2,8 +2,8 @@ import random
 import json
 
 PROCENT_MAX = 80.0
-PROCENT_AVERAGE = 70.0
-PROCENT_MIN = 60.0
+PROCENT_AVERAGE = 60.0
+PROCENT_MIN = 40.0
 
 def startQuestion(massivIngrediens):
     question = []
@@ -39,19 +39,19 @@ def startQuestion(massivIngrediens):
                     scores[score].append(dish[0])
                 else:
                     scores[score] = [dish[0]]
-            remaining_ingredients = [ingredient for dish in massivIngrediens if dish[2] == score for ingredient in dish[1] if ingredient in question]          
-            print(remaining_ingredients)
-            
+                    
+            for score, dishes in scores.items():
+                if dish[2] >= PROCENT_MAX:
+                    if len(dishes) > 1:
+                        print(f"Скорее всего имено это ваши любимые блюда: {', '.join(dishes)}")
+                        return True
+    
+            # Если есть блюда с максимальным процентом  
             for dish in massivIngrediens:
                 if dish[2] >= PROCENT_MAX:
-                    for score, dishes in scores.items():
-                        if len(dishes) == 1:
-                            print(f"Скорее всего ваше любимое блюдо: '{dish[0]}'.")
-                            return True
-                        else: 
-                            remaining_ingredients = [ingredient for dish in massivIngrediens if dish[2] == score for ingredient in dish[1] if ingredient in question]
-                            handle_duplicate(remaining_ingredients, dishes)
-                            return False
+                    print(f"Скорее всего ваше любимое блюдо: '{dish[0]}'.")
+                    return True
+            return False
 
         def check_ingredient(ingridientsNumber, ingredient, data):
             total_count = 0
@@ -63,31 +63,6 @@ def startQuestion(massivIngrediens):
                     print(dish[0], dish[2])
                     total_count += 1
             return total_count
-        
-        def handle_duplicate(score, dishes):
-            while score:
-                random_ingredient = random.choice(question)
-                question.remove(random_ingredient)
-
-                def ingidientDouble(random_ingredient):
-                    ingridientsNumber = input(f"На сколько от 1 до 5, вам нравится данный ингредиент: {random_ingredient}\n")
-
-                    # Проверяем, что введенное значение в допустимом диапазоне
-                    if ingridientsNumber.isdigit() and 1 <= int(ingridientsNumber) <= 5:
-                        return searchIngidientDouble(random_ingredient)
-                    else:
-                        print("Пожалуйста, введите число от 1 до 5.")
-                        return ingidientDouble(random_ingredient)
-                    
-                def searchIngidientDouble(ingredient):
-                    for dish in massivIngrediens:
-                        if ingredient in dish[1]:
-                            return print(f"Скорее всего ваше любимое блюдо: '{dish[0]}'.")
-                        else: 
-                            return print("Возникла Ошибка")
-                
-                if ingidientDouble(random_ingredient):
-                    break
 
         if ingidient(random_ingredient):
             break
