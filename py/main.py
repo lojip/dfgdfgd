@@ -29,7 +29,7 @@ def startQuestion(massivIngrediens):
             print(f"Ингредиент '{random_ingredient}' найден {total_occurrences} раз(а) в списке.")
             for dish in massivIngrediens:
                 if dish[2] > 80.0:
-                    print(f"Блюдо '{dish[0]}' набрало более 80 процентов.")
+                    print(f"Скорее всего ваше любимое блюдо: '{dish[0]}'.")
                     return True  # Завершаем цикл
             return False  # Продолжаем цикл
 
@@ -48,12 +48,19 @@ def startQuestion(massivIngrediens):
             break
 
     if not question:
-        print('Вы тот, кому ничего не нравится.')
-        return
 
+        massivIngrediens.sort(key=lambda x: x[2], reverse=True)
+        for dish in massivIngrediens:
+            if dish[2] > 70.0:
+                return print(f"Наверное ваше любимое блюдо: '{dish[0]}', '{massivIngrediens}'.")
+            elif dish[2] > 50.0:
+                return print(f"Мы полностью не уверены, но может это ваше любимое блюдо: '{dish[0]}', '{massivIngrediens}'")
+            else:
+                return print(f"Вы тот, кому ничего не нравиться :( '{massivIngrediens}'")
+            
 def start():
     # Открытие и чтение JSON-файла
-    with open('c:/Users/N_OFFICE_5/Desktop/react/py/product.json', 'r', encoding='utf-8') as file:
+    with open('C:/Users/N_OFFICE_5/Desktop/Новая папка/Новая папка (2)/Новая папка/react/py/product.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
 
         # Преобразование данных обратно в список списков
