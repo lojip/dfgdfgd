@@ -1,8 +1,10 @@
+import Main from "./main/main";
+
 const Home = () => {
     return (
-        <main>
-            <p>Hello world!</p>
-        </main>
+        <>
+            <Main/>
+        </>
     )
 }
 
