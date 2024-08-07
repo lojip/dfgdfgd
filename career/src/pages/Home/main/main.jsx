@@ -1,27 +1,32 @@
 import { Link } from "react-router-dom";
-import './main.scss'
+import style from './main.module.scss';
+import universite from '../../../../public/db_universities.json';
 
-const main = () => {
+const Main = () => {
     return (
-        <main className="main">
-            <div className="containerQuiz">
-                <div className="wrapper">
-                    {/* <h3>
-                        Уверены, что вы выбрали именно ту кафедру? 
-                    </h3> */}
-                    <h2>Какую стоить выбрать кафедру?</h2>
-                </div>
-                <div className="containerButton">
-                    {/* <Link to='#'>
-                        Проверить
-                    </Link> */}
-                    <Link to='/quiz'>
-                        Узнать
-                    </Link>
-                </div>
-            </div>
+        <main className={style.main}>
+            {universite.universitie.map((department, index) => (
+                <section key={index}>
+                    <div className={style.containerNewQuiz}>
+                        <div className={style.logo}>
+                            <img src="image.png" alt="logo university" />
+                        </div>
+                        <div className={style.wrapper}>
+                            <div className={style.description}>
+                                <h2>{department.name}</h2>
+                                <p>{department.description}</p>
+                            </div>
+                            <div className={style.containerButton}>
+                                <Link to='/quiz'>
+                                    Пройти тест
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ))}
         </main>
-    )
-}
+    );
+};
 
-export default main;
+export default Main;

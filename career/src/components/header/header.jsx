@@ -7,8 +7,9 @@ const header = () => {
             <img src="./logo.svg" alt="logo" />
             <nav>
                 <ul>
-                    <li><a href="#">Направления</a></li>
-                    <li><a href="#">Результат</a></li>
+                    <li>
+                        <Link to="/result">Результат</Link>
+                    </li>
                     <li>
                         <Link to="/">Главная</Link>
                     </li>

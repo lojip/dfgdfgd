@@ -1,44 +1,56 @@
-import './main.scss'
+import { Link } from 'react-router-dom';
+import style from './main.module.scss';
+import { useEffect, useState } from 'react';
+import faculties from '../../../../public/db_faculties.json'
 
-const main = () => {
+const Main = ({ newQuiz = true }) => {
+    const [url, setUrl] = useState('/quiz');
+    const [startNewQuiz, setStartNewQuiz] = useState(newQuiz); 
+
+    const startQuiz = () => {
+        console.log(faculties)
+        setStartNewQuiz(false); 
+    };
+
+    useEffect(() => {
+        setStartNewQuiz(newQuiz); 
+    }, []);
+
     return (
-        <main className='main'>
-            <div className="containerQuiz">
-                <div className="wrapper">
-                    <h2>Choose your delivery option:</h2>
+        <main className={style.main}>
+            {startNewQuiz ? (
+                <div className={style.containerQuiz}>
+                <div className={style.wrapper}>
+                    {/* <h3>
+                        Уверены, что вы выбрали именно ту кафедру? 
+                    </h3> */}
+                    <h2>Какую стоить выбрать кафедру?</h2>
                 </div>
-                <div className="containerButton">                      
-                    <ul>
-                        <li>
-                            <input type="radio" id="s-option" name="selector"></input>
-                            <label for="s-option">1 -</label>
-                            <div class="check"></div>
-                        </li>
-                        <li>
-                            <input type="radio" id="d-option" name="selector"></input>
-                            <label for="d-option">2 -</label>
-                            <div class="check"><div class="inside"></div></div>
-                        </li>
-                        <li>
-                            <input type="radio" id="o-option" name="selector"></input>
-                            <label for="o-option">3 -</label>
-                            <div class="check"><div class="inside"></div></div>
-                        </li>
-                        <li>
-                            <input type="radio" id="o-option" name="selector"></input>
-                            <label for="o-option">4 -</label>
-                            <div class="check"><div class="inside"></div></div>
-                        </li>
-                        <li>
-                            <input type="radio" id="o-option" name="selector"></input>
-                            <label for="o-option">5 -</label>
-                            <div class="check"><div class="inside"></div></div>
-                        </li>
-                    </ul>
+                <div className={style.containerButton}>
+                    <a onClick={startQuiz}>
+                        Узнать
+                    </a>
                 </div>
             </div>
+            ) : (
+                <div className={style.containerQuiz}>
+                    <div className={style.progress}>
+                        <div style={{ width: '75%' }} className={style.progress__inner}></div>
+                    </div>
+                    <div className={style.containerQuizwrapper}>
+                        <h2>Тестоывый вариант вопроса</h2>
+                    </div>
+                    <ul className={style.ul}>
+                        <li><Link to={url}>5 - Очень подходит</Link></li>
+                        <li><Link to={url}>4 - Подходит</Link></li>
+                        <li><Link to={url}>3 - Средне</Link></li>
+                        <li><Link to={url}>2 - Не подходит</Link></li>
+                        <li><Link to={url}>1 - Вообще не подходит</Link></li>
+                    </ul>
+                </div>
+            )}
         </main>
-    )
+    );
 }
 
-export default main
+export default Main;
