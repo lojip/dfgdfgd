@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
 
 .main {
     display: flex;
@@ -9,8 +10,9 @@
 
 .containerQuiz {
     background-color: #eacccb;
-    max-height: calc(40rem - 25px);
+    max-height: calc(45rem - 25px);
     width: 40rem;
+    text-align: center;
     border-radius: 1rem;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -35,7 +37,6 @@ h2 {
     &__inner {
         height: 100%;
         border-radius: 30px;
-        width: 80%;
         background: linear-gradient(90deg, #ff4c4c 0%, #f69d9d 100%);
         transition: all 0.3s ease-in-out;
     }
@@ -53,11 +54,20 @@ h2 {
     }
 }
 
+.wrapperHeader{
+    font-size: 1.5rem;
+    text-align: left;
+}
+
 h1 {
     margin: 0;
 }
 
 .ul {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;  
+    text-align: left;   
     list-style: none;
     padding: 0;
 
@@ -107,4 +117,14 @@ h1 {
         background-color: #ff4c4c;
       }
     }
-  }
+}
+
+
+.wrapperResultHeader{
+    text-align: center;
+}
+
+.textResult{
+    font-weight: 700;
+    font-size: 1.5rem;
+}

@@ -5,15 +5,15 @@ import universite from '../../../../public/db_universities.json';
 const Main = () => {
     return (
         <main className={style.main}>
-            {universite.universitie.map((department, index) => (
+            {universite.universities.map((department, index) => (
                 <section key={index}>
                     <div className={style.containerNewQuiz}>
                         <div className={style.logo}>
-                            <img src="image.png" alt="logo university" />
+                            <img src="kfmgty.png" alt="logo university" />
                         </div>
                         <div className={style.wrapper}>
                             <div className={style.description}>
-                                <h2>{department.name}</h2>
+                                <h2>{department.full_name}</h2>
                                 <p>{department.description}</p>
                             </div>
                             <div className={style.containerButton}>

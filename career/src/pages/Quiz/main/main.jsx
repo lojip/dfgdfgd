@@ -1,56 +1,84 @@
-import { Link } from 'react-router-dom';
 import style from './main.module.scss';
 import { useEffect, useState } from 'react';
-import faculties from '../../../../public/db_faculties.json'
+import { startQuiz, newQuestion, newQuizFull } from './quizUtils.jsx';
 
 const Main = ({ newQuiz = true }) => {
-    const [url, setUrl] = useState('/quiz');
-    const [startNewQuiz, setStartNewQuiz] = useState(newQuiz); 
-
-    const startQuiz = () => {
-        console.log(faculties)
-        setStartNewQuiz(false); 
-    };
+    const [startNewQuiz, setStartNewQuiz] = useState(newQuiz);
+    const [question, setQuestions] = useState('');
+    const [procent, setProcent] = useState(0);
+    const [isResult, setIsResult] = useState(false);
+    const [result, setResult] = useState('');
 
     useEffect(() => {
-        setStartNewQuiz(newQuiz); 
-    }, []);
+        if (newQuiz) {
+            setStartNewQuiz(true);
+        }
+    }, [newQuiz]);
+
+    const data = [
+        { number: 5, text: 'Очень подходит, сильно' },
+        { number: 4, text: 'Подходит, нормально' },
+        { number: 3, text: 'Средне(ние)' },
+        { number: 2, text: 'Не подходит, чуть ниже среднего' },
+        { number: 1, text: 'Вообще не подходит, плохо' },
+    ];
+
+    const handleNewQuestion = (itemNumber) => {
+        newQuestion(setQuestions, itemNumber, question, setProcent, setResult, result, setIsResult, setStartNewQuiz);
+    };
 
     return (
         <main className={style.main}>
-            {startNewQuiz ? (
+            {isResult ? (
                 <div className={style.containerQuiz}>
-                <div className={style.wrapper}>
-                    {/* <h3>
-                        Уверены, что вы выбрали именно ту кафедру? 
-                    </h3> */}
-                    <h2>Какую стоить выбрать кафедру?</h2>
+                    <div className={style.containerQuizWrapper}>
+                        <h2 className={style.wrapperResultHeader}>Вам подойдет данная кафедра:</h2>
+                    </div>
+                    <div>
+                        <h1 className={style.textResult}>
+                            {result ? result : 'Вы еще не прошли тест'}
+                        </h1>
+                    </div>
+                    <div className={style.containerButton}>
+                        <a onClick={() => newQuizFull(setIsResult, setProcent, setQuestions, setStartNewQuiz)}>
+                            Попробовать снова
+                        </a>
+                    </div>
                 </div>
-                <div className={style.containerButton}>
-                    <a onClick={startQuiz}>
-                        Узнать
-                    </a>
-                </div>
-            </div>
             ) : (
-                <div className={style.containerQuiz}>
-                    <div className={style.progress}>
-                        <div style={{ width: '75%' }} className={style.progress__inner}></div>
+                startNewQuiz ? (
+                    <div className={style.containerQuiz}>
+                        <div className={style.wrapper}>
+                            <h2>Какую стоить выбрать кафедру?</h2>
+                        </div>
+                        <div className={style.containerButton}>
+                            <a onClick={() => startQuiz(setQuestions, setStartNewQuiz)}>
+                                Узнать
+                            </a>
+                        </div>
                     </div>
-                    <div className={style.containerQuizwrapper}>
-                        <h2>Тестоывый вариант вопроса</h2>
+                ) : (
+                    <div className={style.containerQuiz}>
+                        <div className={style.progress}>
+                            <div style={{ width: `${procent}%`}} className={style.progress__inner}></div>
+                        </div>
+                        <div className={style.containerQuizWrapper}>
+                            <h2 className={style.wrapperHeader}>{question}</h2>
+                        </div>
+                        <ul className={style.ul}>
+                            {data.map((item, index) => (
+                                <a key={index} onClick={() => handleNewQuestion(item.number)}>
+                                    <li>
+                                        {item.number} - {item.text}
+                                    </li>
+                                </a>
+                            ))}
+                        </ul>
                     </div>
-                    <ul className={style.ul}>
-                        <li><Link to={url}>5 - Очень подходит</Link></li>
-                        <li><Link to={url}>4 - Подходит</Link></li>
-                        <li><Link to={url}>3 - Средне</Link></li>
-                        <li><Link to={url}>2 - Не подходит</Link></li>
-                        <li><Link to={url}>1 - Вообще не подходит</Link></li>
-                    </ul>
-                </div>
+                )
             )}
         </main>
     );
-}
+};
 
 export default Main;
